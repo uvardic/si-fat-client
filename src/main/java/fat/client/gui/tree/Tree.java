@@ -6,6 +6,7 @@ import fat.client.model.Attribute;
 import fat.client.model.Entity;
 import fat.client.model.Repository;
 import fat.client.model.Workspace;
+import fat.client.observer.Observer;
 import fat.client.observer.Subject;
 
 import javax.swing.*;
@@ -31,6 +32,8 @@ public class Tree extends JTree implements Subject {
 
         instance.setModel(new DefaultTreeModel(testRoot()));
         instance.setCellRenderer(new TreeCellRenderer());
+
+        Observer.addSubject(instance);
 
         return instance;
     }
