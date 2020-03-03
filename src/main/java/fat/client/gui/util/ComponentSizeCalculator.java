@@ -1,4 +1,4 @@
-package fat.client.view.util;
+package fat.client.gui.util;
 
 import java.awt.*;
 

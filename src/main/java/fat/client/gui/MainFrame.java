@@ -1,6 +1,7 @@
-package fat.client.view;
+package fat.client.gui;
 
-import fat.client.view.util.ComponentSizeCalculator;
+import fat.client.gui.tree.Tree;
+import fat.client.gui.util.ComponentSizeCalculator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,16 +13,19 @@ public class MainFrame extends JFrame {
     private MainFrame() {}
 
     public static MainFrame getInstance() {
-        if (instance == null)
-            instance = new MainFrame();
+        if (instance != null)
+            return instance;
 
-        return instance;
+        return initialize();
     }
 
-    public void start() {
-        initializeFrame();
-        initializeComponents();
-        setVisible(true);
+    private static MainFrame initialize() {
+        instance = new MainFrame();
+
+        instance.initializeFrame();
+        instance.initializeComponents();
+
+        return instance;
     }
 
     private void initializeFrame() {
@@ -37,7 +41,7 @@ public class MainFrame extends JFrame {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         // to be replaced by tree and table
-        splitPane.setLeftComponent(new JScrollPane(new JPanel()));
+        splitPane.setLeftComponent(new JScrollPane(Tree.getInstance()));
         splitPane.setRightComponent(new JScrollPane(new JPanel()));
         splitPane.setDividerLocation(ComponentSizeCalculator.calculateSplitPaneDividerLocation());
 
