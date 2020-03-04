@@ -1,56 +1,51 @@
 package fat.client.gui.tree;
 
-import fat.client.gui.tree.node.Node;
-import fat.client.gui.tree.node.WorkspaceNode;
-import fat.client.model.Attribute;
-import fat.client.model.Entity;
-import fat.client.model.Repository;
-import fat.client.model.Workspace;
 import fat.client.observer.Observer;
-import fat.client.observer.Subject;
+import fat.client.resource.Attribute;
+import fat.client.resource.Entity;
+import fat.client.resource.Repository;
+import fat.client.resource.Resource;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 
-public class Tree extends JTree implements Subject {
+public class Tree extends JTree implements Observer {
 
-    private static Tree instance;
+    private final Resource root;
 
-    private Tree() {}
-
-    public static Tree getInstance() {
-        if (instance != null)
-            return instance;
-
-        return initialize();
+    public Tree(Resource root) {
+        this.root = root;
+        initialize();
     }
 
-    private static Tree initialize() {
-        instance = new Tree();
+    private void initialize() {
+        root.addObserver(this);
 
-        instance.setModel(new DefaultTreeModel(testRoot()));
-        instance.setCellRenderer(new TreeCellRenderer());
-
-        Observer.addSubject(instance);
-
-        return instance;
+        setModel(new DefaultTreeModel(testRoot()));
+        setCellRenderer(new TreeCellRenderer());
     }
 
-    private static WorkspaceNode testRoot() {
-        Workspace workspace = new Workspace("Workspace");
-        Repository repository = new Repository("Repo", workspace);
-        Entity entity = new Entity("Entity", repository);
-        new Attribute("At12t", entity);
-        new Attribute("Attt", entity);
-        new Attribute("Att", entity);
+    private Node testRoot() {
+        Repository repository = new Repository("Repo");
+        repository.addObserver(this);
+        root.addChild(repository);
 
-        return new WorkspaceNode(workspace);
+        Entity entity = new Entity("Entity");
+        entity.addObserver(this);
+        repository.addChild(entity);
+
+        entity.addChild(new Attribute("At12t"));
+        entity.addChild(new Attribute("At121t"));
+        entity.addChild(new Attribute("At123t"));
+
+        return new Node(root);
     }
 
     @Override
-    public void update() {
+    public void update(Object notification) {
+        System.out.println("Updated by " + notification);
         updateUI();
     }
 

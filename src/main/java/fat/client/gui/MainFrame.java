@@ -2,6 +2,7 @@ package fat.client.gui;
 
 import fat.client.gui.tree.Tree;
 import fat.client.gui.util.ComponentSizeCalculator;
+import fat.client.resource.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +42,7 @@ public class MainFrame extends JFrame {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         // to be replaced by tree and table
-        splitPane.setLeftComponent(new JScrollPane(Tree.getInstance()));
+        splitPane.setLeftComponent(new JScrollPane(new Tree(new Workspace("Workspace"))));
         splitPane.setRightComponent(new JScrollPane(new JPanel()));
         splitPane.setDividerLocation(ComponentSizeCalculator.calculateSplitPaneDividerLocation());
 
