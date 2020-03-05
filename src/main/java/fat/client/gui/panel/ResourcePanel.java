@@ -7,6 +7,7 @@ import fat.client.resource.Resource;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class ResourcePanel extends JPanel {
 
@@ -33,7 +34,16 @@ public class ResourcePanel extends JPanel {
     public void addTable(Resource resource) {
         Table table = new Table(resource);
 
-        tablePanels.addTab(table.format(), table);
+        if (tableExists(table))
+            tablePanels.setSelectedComponent(table);
+        else
+            tablePanels.addTab(table.format(), table);
+    }
+
+    private boolean tableExists(Table table) {
+        return Arrays.stream(tablePanels.getComponents())
+                .map(component -> (Table) component)
+                .anyMatch(existingTable -> existingTable.equals(table));
     }
 
     public void removeTable() {

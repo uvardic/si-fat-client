@@ -9,8 +9,9 @@ public class Entity extends Resource {
 
     private final List<Entity> relations = new ArrayList<>();
 
-    public Entity(String name) {
-        super(name);
+    public Entity(String name, Resource parent) {
+        super(name, parent);
+        getParent().addChild(this);
     }
 
     public void addRelation(Entity relation) {

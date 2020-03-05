@@ -15,17 +15,23 @@ public abstract class Resource implements Observable, Serializable {
 
     private final String name;
 
+    private final Resource parent;
+
     private final List<Resource> children = new ArrayList<>();
 
     private final List<Observer> observers = new ArrayList<>();
 
-    Resource(String name) {
+    Resource(String name, Resource parent) {
         this.name = name;
+        this.parent = parent;
     }
 
     public void addChild(Resource child) {
         if (child == null)
             throw new NullPointerException("Child can't be null!");
+
+        if (children.contains(child))
+            throw new IllegalArgumentException(String.format("Child: %s is already present!", child));
 
         children.add(child);
         notifyObservers(this);
@@ -37,6 +43,10 @@ public abstract class Resource implements Observable, Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public Resource getParent() {
+        return parent;
     }
 
     public List<Resource> getChildren() {
@@ -71,7 +81,8 @@ public abstract class Resource implements Observable, Serializable {
         if (o instanceof Resource) {
             Resource other = (Resource) o;
 
-            return Objects.equals(this.name, other.name);
+            return Objects.equals(this.name, other.name) &&
+                    Objects.equals(this.parent, other.parent);
         }
 
         return false;
@@ -79,7 +90,7 @@ public abstract class Resource implements Observable, Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, parent);
     }
 
 }

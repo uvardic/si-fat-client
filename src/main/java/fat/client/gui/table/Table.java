@@ -12,6 +12,7 @@ public class Table extends JTable {
 
     public Table(Resource resource) {
         this.resource = resource;
+        setName(resource.getName());
         initialize();
     }
 
@@ -21,7 +22,7 @@ public class Table extends JTable {
     }
 
     public String format() {
-        return resource.getName();
+        return String.format("%s - %s", resource.getParent().getName(), resource.getName());
     }
 
     @Override

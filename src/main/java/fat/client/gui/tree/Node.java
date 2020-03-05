@@ -43,7 +43,7 @@ public class Node implements TreeNode {
 
     @Override
     public TreeNode getParent() {
-        return null;
+        return new Node(resource);
     }
 
     @Override

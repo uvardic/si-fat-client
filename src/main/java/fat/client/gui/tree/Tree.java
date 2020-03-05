@@ -40,17 +40,22 @@ public class Tree extends JTree implements Observer {
     }
 
     private Node testRoot() {
-        Repository repository = new Repository("Repo");
+        Repository repository = new Repository("Repo", root);
         repository.addObserver(this);
-        root.addChild(repository);
 
-        Entity entity = new Entity("Entity");
+        Entity entity = new Entity("Entity", repository);
         entity.addObserver(this);
-        repository.addChild(entity);
 
-        entity.addChild(new Attribute("At12t"));
-        entity.addChild(new Attribute("At121t"));
-        entity.addChild(new Attribute("At123t"));
+        Entity entity1 = new Entity("Entity1", repository);
+        entity.addObserver(this);
+
+        new Attribute("At12t", entity, true);
+        new Attribute("Att", entity);
+        new Attribute("At132t", entity, true);
+
+        new Attribute("At12t", entity1, true);
+        new Attribute("Att", entity1);
+        new Attribute("At132t", entity1);
 
         return new Node(root);
     }

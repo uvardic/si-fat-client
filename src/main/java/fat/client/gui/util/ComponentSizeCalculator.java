@@ -53,7 +53,7 @@ public class ComponentSizeCalculator {
     }
 
     public static MigLayout calculateLayoutForEditResourcePanel() {
-        return new MigLayout("", String.format("[]%d[]", SCREEN_WIDTH / 2));
+        return new MigLayout("", String.format("[]%d[]", SCREEN_WIDTH / 4));
     }
 
 }
