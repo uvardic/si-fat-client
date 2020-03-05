@@ -5,8 +5,6 @@ import fat.client.resource.Resource;
 import javax.swing.tree.TreeNode;
 import java.util.*;
 
-import static java.util.Collections.unmodifiableList;
-
 public class Node implements TreeNode {
 
     private final Resource resource;
@@ -31,10 +29,6 @@ public class Node implements TreeNode {
 
     public Resource getResource() {
         return resource;
-    }
-
-    public List<Node> getChildren() {
-        return unmodifiableList(children);
     }
 
     @Override

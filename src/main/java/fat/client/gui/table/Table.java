@@ -1,11 +1,13 @@
 package fat.client.gui.table;
 
 import fat.client.resource.Resource;
+import lombok.Getter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Objects;
 
+@Getter
 public class Table extends JTable {
 
     private final Resource resource;
@@ -23,10 +25,6 @@ public class Table extends JTable {
 
     public String format() {
         return String.format("%s - %s", resource.getParent().getName(), resource.getName());
-    }
-
-    public Resource getResource() {
-        return resource;
     }
 
     @Override

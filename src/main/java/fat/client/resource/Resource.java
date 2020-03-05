@@ -2,6 +2,7 @@ package fat.client.resource;
 
 import fat.client.observer.Observable;
 import fat.client.observer.Observer;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 import static java.util.Collections.unmodifiableList;
 
+@Getter
 public abstract class Resource implements Observable, Serializable {
 
     private final String name;
@@ -39,14 +41,6 @@ public abstract class Resource implements Observable, Serializable {
 
     public void addChildren(Resource... children) {
         Arrays.stream(children).forEach(this::addChild);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Resource getParent() {
-        return parent;
     }
 
     public List<Resource> getChildren() {
