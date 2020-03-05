@@ -5,9 +5,9 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-public class SaveResourcePanel extends ResourcePanelComponent {
+public class SaveOperationPanel extends OperationPanel {
 
-    public SaveResourcePanel() {
+    public SaveOperationPanel() {
         super(new MigLayout());
     }
 

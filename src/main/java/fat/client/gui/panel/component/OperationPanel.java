@@ -10,11 +10,11 @@ import fat.client.resource.Resource;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class ResourcePanelComponent extends JPanel {
+public abstract class OperationPanel extends JPanel {
 
     private Resource resource;
 
-    ResourcePanelComponent(LayoutManager layout) {
+    OperationPanel(LayoutManager layout) {
         super(layout);
 
         Node lastSelectedNode = MainFrame.getInstance().getTree().getLastSelectedPathComponent();

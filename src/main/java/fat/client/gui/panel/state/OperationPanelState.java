@@ -1,6 +1,6 @@
 package fat.client.gui.panel.state;
 
-public interface PanelState {
+public interface OperationPanelState {
 
     void initializePanel();
 

@@ -1,17 +1,17 @@
 package fat.client.gui.panel.state;
 
 import fat.client.gui.panel.ResourcePanel;
-import fat.client.gui.panel.component.FindResourcePanel;
+import fat.client.gui.panel.component.FindOperationPanel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class FindResourcePanelState implements PanelState {
+public class FindOperationPanelState implements OperationPanelState {
 
     private final ResourcePanel resourcePanel;
 
     @Override
     public void initializePanel() {
-        resourcePanel.getContentPanel().setBottomComponent(new FindResourcePanel());
+        resourcePanel.getContentPanel().setBottomComponent(new FindOperationPanel());
     }
 
 }

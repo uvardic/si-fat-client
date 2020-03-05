@@ -5,9 +5,9 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-public class DeleteResourcePanel extends ResourcePanelComponent {
+public class DeleteOperationPanel extends OperationPanel {
 
-    public DeleteResourcePanel() {
+    public DeleteOperationPanel() {
         super(new MigLayout());
     }
 

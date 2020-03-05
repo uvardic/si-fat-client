@@ -5,9 +5,9 @@ import fat.client.resource.Attribute;
 
 import javax.swing.*;
 
-public class UpdateResourcePanel extends ResourcePanelComponent {
+public class UpdateOperationPanel extends OperationPanel {
 
-    public UpdateResourcePanel() {
+    public UpdateOperationPanel() {
         super(ComponentSizeCalculator.calculateLayoutForEditResourcePanel());
     }
 

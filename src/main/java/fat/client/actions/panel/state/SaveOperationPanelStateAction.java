@@ -1,22 +1,24 @@
 package fat.client.actions.panel.state;
 
 import fat.client.gui.MainFrame;
+import fat.client.gui.util.IconLoader;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class SaveResourcePanelStateAction extends AbstractAction {
+public class SaveOperationPanelStateAction extends AbstractAction {
 
-    public SaveResourcePanelStateAction() {
+    public SaveOperationPanelStateAction() {
         putValue(NAME, "Save Resource Panel");
         putValue(SHORT_DESCRIPTION, "Save Resource Panel");
+        putValue(SMALL_ICON, IconLoader.SAVE_OPERATION.loadIcon());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         MainFrame.getInstance()
                 .getResourcePanel()
-                .getPanelStateManager()
+                .getOperationPanelStateManager()
                 .startAddResourcePanelState();
     }
 

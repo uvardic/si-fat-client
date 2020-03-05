@@ -5,6 +5,8 @@ import fat.client.resource.Resource;
 import javax.swing.tree.TreeNode;
 import java.util.*;
 
+import static java.util.Collections.unmodifiableList;
+
 public class Node implements TreeNode {
 
     private final Resource resource;
@@ -31,6 +33,10 @@ public class Node implements TreeNode {
         return resource;
     }
 
+    public List<Node> getChildren() {
+        return unmodifiableList(children);
+    }
+
     @Override
     public TreeNode getChildAt(int i) {
         return children.get(i);
@@ -43,7 +49,10 @@ public class Node implements TreeNode {
 
     @Override
     public TreeNode getParent() {
-        return new Node(resource);
+        if (resource == null || resource.getParent() == null)
+            return null;
+
+        return new Node(resource.getParent());
     }
 
     @Override

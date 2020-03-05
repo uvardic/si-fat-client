@@ -5,9 +5,9 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-public class FindResourcePanel extends ResourcePanelComponent {
+public class FindOperationPanel extends OperationPanel {
 
-    public FindResourcePanel() {
+    public FindOperationPanel() {
         super(new MigLayout());
     }
 

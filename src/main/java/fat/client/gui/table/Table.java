@@ -25,6 +25,10 @@ public class Table extends JTable {
         return String.format("%s - %s", resource.getParent().getName(), resource.getName());
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
     @Override
     public String toString() {
         return String.format("Table{resource=%s}", resource);

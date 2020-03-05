@@ -12,9 +12,13 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tree extends JTree implements Observer {
 
@@ -58,6 +62,27 @@ public class Tree extends JTree implements Observer {
         new Attribute("At132t", entity1);
 
         return new Node(root);
+    }
+
+    public void selectNodeFor(Resource resource) {
+        selectionModel.setSelectionPath(getPathFor(new Node(resource)));
+    }
+
+    private TreePath getPathFor(TreeNode node) {
+        List<TreeNode> nodes = new ArrayList<>();
+        nodes.add(node);
+
+        node = node.getParent();
+
+        while (node != null) {
+            nodes.add(0, node);
+            node = node.getParent();
+        }
+
+        if (nodes.isEmpty())
+            return new TreePath(getModel().getRoot());
+
+        return new TreePath(nodes.toArray());
     }
 
     @Override
