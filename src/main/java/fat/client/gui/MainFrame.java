@@ -1,12 +1,16 @@
 package fat.client.gui;
 
+import fat.client.actions.ActionManager;
+import fat.client.gui.panel.ResourcePanel;
 import fat.client.gui.tree.Tree;
 import fat.client.gui.util.ComponentSizeCalculator;
 import fat.client.resource.Workspace;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Getter
 public class MainFrame extends JFrame {
 
     private static MainFrame instance;
@@ -23,10 +27,23 @@ public class MainFrame extends JFrame {
     private static MainFrame initialize() {
         instance = new MainFrame();
 
+        instance.initializeSingletons();
         instance.initializeFrame();
         instance.initializeComponents();
 
         return instance;
+    }
+
+    private ActionManager actionManager;
+
+    private Tree tree;
+
+    private ResourcePanel resourcePanel;
+
+    private void initializeSingletons() {
+        actionManager = new ActionManager();
+        tree = new Tree(new Workspace("Workspace"));
+        resourcePanel = new ResourcePanel();
     }
 
     private void initializeFrame() {
@@ -41,9 +58,8 @@ public class MainFrame extends JFrame {
     private void initializeComponents() {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        // to be replaced by tree and table
-        splitPane.setLeftComponent(new JScrollPane(new Tree(new Workspace("Workspace"))));
-        splitPane.setRightComponent(new JScrollPane(new JPanel()));
+        splitPane.setLeftComponent(new JScrollPane(tree));
+        splitPane.setRightComponent(new JScrollPane(resourcePanel));
         splitPane.setDividerLocation(ComponentSizeCalculator.calculateSplitPaneDividerLocation());
 
         add(splitPane, BorderLayout.CENTER);

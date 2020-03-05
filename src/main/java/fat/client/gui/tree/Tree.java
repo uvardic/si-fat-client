@@ -1,5 +1,6 @@
 package fat.client.gui.tree;
 
+import fat.client.gui.MainFrame;
 import fat.client.observer.Observer;
 import fat.client.resource.Attribute;
 import fat.client.resource.Entity;
@@ -7,9 +8,13 @@ import fat.client.resource.Repository;
 import fat.client.resource.Resource;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Tree extends JTree implements Observer {
 
@@ -25,6 +30,13 @@ public class Tree extends JTree implements Observer {
 
         setModel(new DefaultTreeModel(testRoot()));
         setCellRenderer(new TreeCellRenderer());
+
+        TreeController treeController = new TreeController();
+
+        addMouseListener(treeController);
+        addMouseWheelListener(treeController);
+        addMouseMotionListener(treeController);
+        addTreeSelectionListener(treeController);
     }
 
     private Node testRoot() {
@@ -49,6 +61,11 @@ public class Tree extends JTree implements Observer {
         updateUI();
     }
 
+    @Override
+    public Node getLastSelectedPathComponent() {
+        return (Node) super.getLastSelectedPathComponent();
+    }
+
     private static class TreeCellRenderer extends DefaultTreeCellRenderer {
 
         @Override
@@ -62,6 +79,22 @@ public class Tree extends JTree implements Observer {
             return this;
         }
 
+    }
+
+    private class TreeController extends MouseAdapter implements TreeSelectionListener {
+
+        @Override
+        public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+            Resource lastSelectedResource = getLastSelectedPathComponent().getResource();
+
+            // Replace with visitor pattern if more cases occur
+            if (lastSelectedResource instanceof Entity)
+                MainFrame.getInstance().getResourcePanel().addTable(lastSelectedResource);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
     }
 
 }

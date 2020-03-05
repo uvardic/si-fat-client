@@ -27,6 +27,10 @@ public class Node implements TreeNode {
         return resource.getName();
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
     @Override
     public TreeNode getChildAt(int i) {
         return children.get(i);
