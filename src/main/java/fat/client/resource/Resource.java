@@ -1,7 +1,9 @@
 package fat.client.resource;
 
+import fat.client.gui.tree.Node;
 import fat.client.observer.Observable;
 import fat.client.observer.Observer;
+import fat.client.resource.visitor.ResourceVisitor;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableList;
 
@@ -28,6 +31,8 @@ public abstract class Resource implements Observable, Serializable {
         this.parent = parent;
     }
 
+    public abstract void acceptVisitor(ResourceVisitor visitor);
+
     public void addChild(Resource child) {
         if (child == null)
             throw new NullPointerException("Child can't be null!");
@@ -43,8 +48,24 @@ public abstract class Resource implements Observable, Serializable {
         Arrays.stream(children).forEach(this::addChild);
     }
 
+    public void removeChild(Resource child) {
+        children.remove(child);
+        notifyObservers(this);
+    }
+
+    public void removeAllChildren() {
+        children.clear();
+        notifyObservers(this);
+    }
+
     public List<Resource> getChildren() {
         return unmodifiableList(children);
+    }
+
+    public List<Node> mapChildrenToNodes() {
+        return children.stream()
+                .map(Node::new)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -4,9 +4,12 @@ import fat.client.actions.panel.state.DeleteOperationPanelStateAction;
 import fat.client.actions.panel.state.FindOperationPanelStateAction;
 import fat.client.actions.panel.state.SaveOperationPanelStateAction;
 import fat.client.actions.panel.state.UpdateOperationPanelStateAction;
+import fat.client.actions.resource.RemoveResourceAction;
+import lombok.Getter;
 
 import javax.swing.*;
 
+@Getter
 public final class ActionManager {
 
     private final AbstractAction[] panelStateActions = {
@@ -14,7 +17,6 @@ public final class ActionManager {
             new SaveOperationPanelStateAction(), new UpdateOperationPanelStateAction()
     };
 
-    public AbstractAction[] getPanelStateActions() {
-        return panelStateActions;
-    }
+    private final RemoveResourceAction removeResourceAction = new RemoveResourceAction();
+
 }

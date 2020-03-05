@@ -1,5 +1,6 @@
 package fat.client.gui.panel;
 
+import fat.client.gui.panel.component.OperationPanel;
 import fat.client.gui.panel.state.OperationPanelStateManager;
 import fat.client.gui.util.ComponentSizeCalculator;
 import fat.client.resource.Resource;
@@ -36,8 +37,21 @@ public class ResourcePanel extends JPanel {
         operationPanelStateManager.getCurrentState().initializePanel();
     }
 
-    public void addTable(Resource resource) {
-        tablePanel.addTable(resource);
+    void clearOperationPanel() {
+        Component component = getContentPanel().getBottomComponent();
+
+        if (!(component instanceof OperationPanel))
+            throw new IllegalStateException();
+
+        ((OperationPanel) component).removeAll();
+    }
+
+    public void addTableFor(Resource resource) {
+        tablePanel.addTableFor(resource);
+    }
+
+    public void removeTableFor(Resource resource) {
+        tablePanel.removeTableFor(resource);
     }
 
 }

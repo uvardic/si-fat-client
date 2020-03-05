@@ -1,5 +1,7 @@
 package fat.client.resource;
 
+import fat.client.resource.visitor.ResourceVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class Entity extends Resource {
 
     public List<Entity> getRelations() {
         return unmodifiableList(relations);
+    }
+
+    @Override
+    public void acceptVisitor(ResourceVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

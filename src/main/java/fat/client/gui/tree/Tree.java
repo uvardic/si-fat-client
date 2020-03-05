@@ -6,6 +6,7 @@ import fat.client.resource.Attribute;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
 import fat.client.resource.Resource;
+import fat.client.resource.visitor.PopupMenuResourceVisitor;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -119,12 +120,21 @@ public class Tree extends JTree implements Observer {
 
             // Replace with visitor pattern if more cases occur
             if (lastSelectedResource instanceof Entity)
-                MainFrame.getInstance().getResourcePanel().addTable(lastSelectedResource);
+                MainFrame.getInstance().getResourcePanel().addTableFor(lastSelectedResource);
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(MouseEvent event) {
+            if (event.getButton() != MouseEvent.BUTTON3)
+                return;
+
+            setSelectionPath(getClosestPathForLocation(event.getX(), event.getY()));
+
+            PopupMenuResourceVisitor popupMenuVisitor = new PopupMenuResourceVisitor();
+            getLastSelectedPathComponent().getResource().acceptVisitor(popupMenuVisitor);
+            popupMenuVisitor.showMenu(event);
         }
+
     }
 
 }

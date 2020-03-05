@@ -18,7 +18,7 @@ class TablePanel extends JTabbedPane {
         addMouseListener(new TablePanelController());
     }
 
-    void addTable(Resource resource) {
+    void addTableFor(Resource resource) {
         Table table = new Table(resource);
 
         if (tableNotFound(table))
@@ -32,6 +32,28 @@ class TablePanel extends JTabbedPane {
         return Arrays.stream(getComponents())
                 .map(component -> (Table) component)
                 .noneMatch(existingTable -> existingTable.equals(table));
+    }
+
+    void removeTableFor(Resource resource) {
+        Table unluckyTable = Arrays.stream(getComponents())
+                .map(component -> (Table) component)
+                .filter(table -> table.getResource().equals(resource))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Resource: %s wasn't found!", resource)
+                ));
+
+        remove(unluckyTable);
+
+        if (getComponentCount() == 0)
+            resourcePanel.clearOperationPanel();
+        else
+            selectFirstTable();
+    }
+
+    private void selectFirstTable() {
+        Table firstTable = (Table) getComponentAt(0);
+        MainFrame.getInstance().getTree().selectNodeFor(firstTable.getResource());
     }
 
     private Table getSelectedTable() {

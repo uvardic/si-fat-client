@@ -3,24 +3,16 @@ package fat.client.gui.tree;
 import fat.client.resource.Resource;
 
 import javax.swing.tree.TreeNode;
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Objects;
 
 public class Node implements TreeNode {
 
     private final Resource resource;
 
-    private final List<Node> children = new ArrayList<>();
-
     public Node(Resource resource) {
         this.resource = resource;
-        mapChildren(resource);
-    }
-
-    private void mapChildren(Resource resource) {
-        resource.getChildren()
-                .stream()
-                .map(Node::new)
-                .forEach(children::add);
     }
 
     public String format() {
@@ -33,12 +25,12 @@ public class Node implements TreeNode {
 
     @Override
     public TreeNode getChildAt(int i) {
-        return children.get(i);
+        return resource.mapChildrenToNodes().get(i);
     }
 
     @Override
     public int getChildCount() {
-        return children.size();
+        return resource.getChildren().size();
     }
 
     @Override
@@ -52,22 +44,22 @@ public class Node implements TreeNode {
     @Override
     @SuppressWarnings("SuspiciousMethodCalls")
     public int getIndex(TreeNode treeNode) {
-        return children.indexOf(treeNode);
+        return resource.mapChildrenToNodes().indexOf(treeNode);
     }
 
     @Override
     public boolean getAllowsChildren() {
-        return children.size() != 0;
+        return resource.getChildren().size() != 0;
     }
 
     @Override
     public boolean isLeaf() {
-        return children.size() == 0;
+        return resource.getChildren().size() == 0;
     }
 
     @Override
     public Enumeration<? extends TreeNode> children() {
-        return Collections.enumeration(children);
+        return Collections.enumeration(resource.mapChildrenToNodes());
     }
 
     @Override
