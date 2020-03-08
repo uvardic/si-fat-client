@@ -5,6 +5,7 @@ import fat.client.actions.panel.state.FindOperationPanelStateAction;
 import fat.client.actions.panel.state.SaveOperationPanelStateAction;
 import fat.client.actions.panel.state.UpdateOperationPanelStateAction;
 import fat.client.actions.resource.RemoveResourceAction;
+import fat.client.actions.resource.RemoveResourceChildrenAction;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -18,5 +19,7 @@ public final class ActionManager {
     };
 
     private final RemoveResourceAction removeResourceAction = new RemoveResourceAction();
+
+    private final RemoveResourceChildrenAction removeResourceChildrenAction = new RemoveResourceChildrenAction();
 
 }

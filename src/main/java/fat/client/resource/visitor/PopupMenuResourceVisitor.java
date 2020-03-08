@@ -16,23 +16,29 @@ public class PopupMenuResourceVisitor implements ResourceVisitor {
 
     private final ActionManager actionManager = MainFrame.getInstance().getActionManager();
 
-    public void showMenu(MouseEvent event) {
+    public PopupMenuResourceVisitor() {
         popupMenu.removeAll();
+    }
+
+    public void showMenu(MouseEvent event) {
         popupMenu.show(event.getComponent(), event.getX(), event.getY());
     }
 
     @Override
     public void visit(Workspace workspace) {
+        popupMenu.add(actionManager.getRemoveResourceChildrenAction());
     }
 
     @Override
     public void visit(Repository repository) {
         popupMenu.add(actionManager.getRemoveResourceAction());
+        popupMenu.add(actionManager.getRemoveResourceChildrenAction());
     }
 
     @Override
     public void visit(Entity entity) {
         popupMenu.add(actionManager.getRemoveResourceAction());
+        popupMenu.add(actionManager.getRemoveResourceChildrenAction());
     }
 
     @Override

@@ -53,7 +53,7 @@ public abstract class Resource implements Observable, Serializable {
         notifyObservers(this);
     }
 
-    public void removeAllChildren() {
+    public void removeChildren() {
         children.clear();
         notifyObservers(this);
     }
