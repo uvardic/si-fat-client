@@ -35,25 +35,30 @@ class TablePanel extends JTabbedPane {
     }
 
     void removeTableFor(Resource resource) {
-        Table unluckyTable = Arrays.stream(getComponents())
+        Arrays.stream(getComponents())
                 .map(component -> (Table) component)
                 .filter(table -> table.getResource().equals(resource))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("Resource: %s wasn't found!", resource)
-                ));
+                .ifPresent(this::remove);
 
-        remove(unluckyTable);
-
-        if (getComponentCount() == 0)
-            resourcePanel.clearOperationPanel();
-        else
+        if (tablesExists())
             selectFirstTable();
+        else
+            selectParent(resource.getParent());
+    }
+
+    private boolean tablesExists() {
+        return getComponentCount() != 0;
     }
 
     private void selectFirstTable() {
         Table firstTable = (Table) getComponentAt(0);
         MainFrame.getInstance().getTree().selectNodeFor(firstTable.getResource());
+    }
+
+    private void selectParent(Resource parent) {
+        resourcePanel.clearOperationPanel();
+        MainFrame.getInstance().getTree().selectNodeFor(parent);
     }
 
     private Table getSelectedTable() {
