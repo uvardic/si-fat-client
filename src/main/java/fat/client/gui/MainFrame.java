@@ -1,19 +1,20 @@
 package fat.client.gui;
 
-import fat.client.actions.ActionManager;
-import fat.client.gui.panel.ResourcePanel;
+import fat.client.gui.menu.Menu;
+import fat.client.gui.resourcepanel.ResourcePanel;
 import fat.client.gui.tree.Tree;
 import fat.client.gui.util.ComponentSizeCalculator;
-import fat.client.resource.Workspace;
-import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
 
-@Getter
 public class MainFrame extends JFrame {
 
     private static MainFrame instance;
+
+    private Tree tree;
+
+    private ResourcePanel resourcePanel;
 
     private MainFrame() {}
 
@@ -27,23 +28,16 @@ public class MainFrame extends JFrame {
     private static MainFrame initialize() {
         instance = new MainFrame();
 
-        instance.initializeSingletons();
+        instance.initializeFields();
         instance.initializeFrame();
-        instance.initializeComponents();
+        instance.initializeGUIComponents();
 
         return instance;
     }
 
-    private ActionManager actionManager;
-
-    private Tree tree;
-
-    private ResourcePanel resourcePanel;
-
-    private void initializeSingletons() {
-        actionManager = new ActionManager();
-        tree = new Tree(new Workspace("Workspace"));
+    private void initializeFields() {
         resourcePanel = new ResourcePanel();
+        tree = new Tree();
     }
 
     private void initializeFrame() {
@@ -55,14 +49,20 @@ public class MainFrame extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
     }
 
-    private void initializeComponents() {
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-
-        splitPane.setLeftComponent(new JScrollPane(tree));
-        splitPane.setRightComponent(new JScrollPane(resourcePanel));
-        splitPane.setDividerLocation(ComponentSizeCalculator.calculateSplitPaneDividerLocation());
-
-        add(splitPane, BorderLayout.CENTER);
+    private void initializeGUIComponents() {
+        setJMenuBar(new Menu());
+        JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        contentPanel.setLeftComponent(new JScrollPane(tree));
+        contentPanel.setRightComponent(new JScrollPane(resourcePanel));
+        contentPanel.setDividerLocation(ComponentSizeCalculator.calculateSplitPaneDividerLocation());
+        add(contentPanel, BorderLayout.CENTER);
     }
 
+    public Tree getTree() {
+        return tree;
+    }
+
+    public ResourcePanel getResourcePanel() {
+        return resourcePanel;
+    }
 }

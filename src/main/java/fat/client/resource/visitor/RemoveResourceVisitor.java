@@ -1,7 +1,7 @@
 package fat.client.resource.visitor;
 
 import fat.client.gui.MainFrame;
-import fat.client.gui.panel.ResourcePanel;
+import fat.client.gui.resourcepanel.tablepanel.TablePanel;
 import fat.client.resource.Attribute;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
@@ -14,14 +14,14 @@ public class RemoveResourceVisitor implements ResourceVisitor {
 
     @Override
     public void visit(Repository repository) {
-        ResourcePanel resourcePanel = MainFrame.getInstance().getResourcePanel();
-        repository.getChildren().forEach(resourcePanel::removeTableFor);
+        TablePanel tablePanel = MainFrame.getInstance().getResourcePanel().getTablePanel();
+        repository.getChildren().forEach(tablePanel::removeTableFor);
         repository.getParent().removeChild(repository);
     }
 
     @Override
     public void visit(Entity entity) {
-        MainFrame.getInstance().getResourcePanel().removeTableFor(entity);
+        MainFrame.getInstance().getResourcePanel().getTablePanel().removeTableFor(entity);
         entity.getParent().removeChild(entity);
     }
 
@@ -29,4 +29,5 @@ public class RemoveResourceVisitor implements ResourceVisitor {
     public void visit(Attribute attribute) {
         attribute.getParent().removeChild(attribute);
     }
+
 }

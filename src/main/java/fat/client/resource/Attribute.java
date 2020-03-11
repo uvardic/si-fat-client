@@ -1,9 +1,7 @@
 package fat.client.resource;
 
 import fat.client.resource.visitor.ResourceVisitor;
-import lombok.Getter;
 
-@Getter
 public class Attribute extends Resource {
 
     private boolean isKey;
@@ -17,6 +15,10 @@ public class Attribute extends Resource {
         super(name, parent);
         this.isKey = isKey;
         getParent().addChild(this);
+    }
+
+    public boolean isKey() {
+        return isKey;
     }
 
     @Override

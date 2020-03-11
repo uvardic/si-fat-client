@@ -12,5 +12,4 @@ public class Workspace extends Resource {
     public void acceptVisitor(ResourceVisitor visitor) {
         visitor.visit(this);
     }
-
 }

@@ -1,21 +1,19 @@
 package fat.client.resource;
 
 import fat.client.gui.tree.Node;
+import fat.client.gui.tree.Tree;
 import fat.client.observer.Observable;
 import fat.client.observer.Observer;
 import fat.client.resource.visitor.ResourceVisitor;
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableList;
 
-@Getter
 public abstract class Resource implements Observable, Serializable {
 
     private final String name;
@@ -33,6 +31,14 @@ public abstract class Resource implements Observable, Serializable {
 
     public abstract void acceptVisitor(ResourceVisitor visitor);
 
+    public String getName() {
+        return name;
+    }
+
+    public Resource getParent() {
+        return parent;
+    }
+
     public void addChild(Resource child) {
         if (child == null)
             throw new NullPointerException("Child can't be null!");
@@ -41,21 +47,17 @@ public abstract class Resource implements Observable, Serializable {
             throw new IllegalArgumentException(String.format("Child: %s is already present!", child));
 
         children.add(child);
-        notifyObservers(this);
-    }
-
-    public void addChildren(Resource... children) {
-        Arrays.stream(children).forEach(this::addChild);
+        notifyObservers(Tree.class, this);
     }
 
     public void removeChild(Resource child) {
         children.remove(child);
-        notifyObservers(this);
+        notifyObservers(Tree.class, this);
     }
 
     public void removeChildren() {
         children.clear();
-        notifyObservers(this);
+        notifyObservers(Tree.class, this);
     }
 
     public List<Resource> getChildren() {
@@ -82,8 +84,10 @@ public abstract class Resource implements Observable, Serializable {
     }
 
     @Override
-    public void notifyObservers(Object notification) {
-        observers.forEach(observer -> observer.update(notification));
+    public void notifyObservers(Class<? extends Observer> observerClass, Object notification) {
+        observers.stream()
+                .filter(observer -> observer.getClass().equals(observerClass))
+                .forEach(observer -> observer.update(notification));
     }
 
     @Override

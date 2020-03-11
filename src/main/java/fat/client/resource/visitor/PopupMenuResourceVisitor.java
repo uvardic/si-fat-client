@@ -1,48 +1,41 @@
 package fat.client.resource.visitor;
 
-import fat.client.actions.ActionManager;
-import fat.client.gui.MainFrame;
+import fat.client.gui.tree.menu.RemoveResourceAction;
+import fat.client.gui.tree.menu.RemoveResourceChildrenAction;
+import fat.client.gui.tree.menu.TreeMenu;
 import fat.client.resource.Attribute;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
 import fat.client.resource.Workspace;
 
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 
 public class PopupMenuResourceVisitor implements ResourceVisitor {
 
-    private final JPopupMenu popupMenu = new JPopupMenu();
-
-    private final ActionManager actionManager = MainFrame.getInstance().getActionManager();
-
-    public PopupMenuResourceVisitor() {
-        popupMenu.removeAll();
-    }
+    private final TreeMenu treeMenu = new TreeMenu();
 
     public void showMenu(MouseEvent event) {
-        popupMenu.show(event.getComponent(), event.getX(), event.getY());
+        treeMenu.showActions();
+        treeMenu.show(event.getComponent(), event.getX(), event.getY());
     }
 
     @Override
     public void visit(Workspace workspace) {
-        popupMenu.add(actionManager.getRemoveResourceChildrenAction());
+        treeMenu.addAction(new RemoveResourceChildrenAction());
     }
 
     @Override
     public void visit(Repository repository) {
-        popupMenu.add(actionManager.getRemoveResourceAction());
-        popupMenu.add(actionManager.getRemoveResourceChildrenAction());
+        treeMenu.addActions(new RemoveResourceAction(), new RemoveResourceChildrenAction());
     }
 
     @Override
     public void visit(Entity entity) {
-        popupMenu.add(actionManager.getRemoveResourceAction());
-        popupMenu.add(actionManager.getRemoveResourceChildrenAction());
+        treeMenu.addActions(new RemoveResourceAction(), new RemoveResourceChildrenAction());
     }
 
     @Override
     public void visit(Attribute attribute) {
-        popupMenu.add(actionManager.getRemoveResourceAction());
+        treeMenu.addActions(new RemoveResourceAction(), new RemoveResourceChildrenAction());
     }
 }

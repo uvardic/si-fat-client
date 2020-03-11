@@ -1,14 +1,16 @@
 package fat.client.resource.persistence;
 
 import fat.client.resource.persistence.implementor.PersistenceImplementor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class PersistenceImpl implements Persistence {
 
     private final PersistenceImplementor implementor;
+
+    public PersistenceImpl(PersistenceImplementor implementor) {
+        this.implementor = implementor;
+    }
 
     @Override
     public void deleteById(Object id) {

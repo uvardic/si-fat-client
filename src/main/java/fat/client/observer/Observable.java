@@ -6,6 +6,6 @@ public interface Observable {
 
     void removeObserver(Observer observer);
 
-    void notifyObservers(Object notification);
+    void notifyObservers(Class<? extends Observer> observerClass, Object notification);
 
 }
