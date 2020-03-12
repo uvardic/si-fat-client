@@ -1,8 +1,9 @@
 package fat.client.gui.resourcepanel.operationpanel.state;
 
-
 import fat.client.gui.resourcepanel.ResourcePanel;
 import fat.client.gui.resourcepanel.operationpanel.component.SaveOperationPanel;
+
+import javax.swing.*;
 
 public class SaveOperationPanelState implements OperationPanelState {
 
@@ -14,7 +15,7 @@ public class SaveOperationPanelState implements OperationPanelState {
 
     @Override
     public void initializePanel() {
-        resourcePanel.getContentPanel().setBottomComponent(new SaveOperationPanel());
+        resourcePanel.getContentPanel().setBottomComponent(new JScrollPane(new SaveOperationPanel()));
     }
 
 }

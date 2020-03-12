@@ -3,6 +3,8 @@ package fat.client.gui.resourcepanel.operationpanel.state;
 import fat.client.gui.resourcepanel.ResourcePanel;
 import fat.client.gui.resourcepanel.operationpanel.component.FindOperationPanel;
 
+import javax.swing.*;
+
 public class FindOperationPanelState implements OperationPanelState {
 
     private final ResourcePanel resourcePanel;
@@ -13,7 +15,7 @@ public class FindOperationPanelState implements OperationPanelState {
 
     @Override
     public void initializePanel() {
-        resourcePanel.getContentPanel().setBottomComponent(new FindOperationPanel());
+        resourcePanel.getContentPanel().setBottomComponent(new JScrollPane(new FindOperationPanel()));
     }
 
 }

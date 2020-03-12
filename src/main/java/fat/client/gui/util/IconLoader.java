@@ -7,6 +7,7 @@ public enum IconLoader {
 
     DELETE_OPERATION("/icon/operation/deleteIcon.png"),
     FIND_OPERATION("/icon/operation/findIcon.png"),
+    RELATION_OPERATION("/icon/operation/relationIcon.png"),
     SAVE_OPERATION("/icon/operation/saveIcon.png"),
     UPDATE_OPERATION("/icon/operation/updateIcon.png");
 

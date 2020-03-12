@@ -5,6 +5,8 @@ import fat.client.gui.resourcepanel.ResourcePanel;
 
 public class OperationPanelStateManager {
 
+    private final RelationsOperationPanelState relationsPanelState;
+
     private final DeleteOperationPanelState deleteResourcePanelState;
 
     private final FindOperationPanelState findResourcePanelState;
@@ -16,16 +18,22 @@ public class OperationPanelStateManager {
     private OperationPanelState currentState;
 
     public OperationPanelStateManager(ResourcePanel resourcePanel) {
+        relationsPanelState = new RelationsOperationPanelState(resourcePanel);
         deleteResourcePanelState = new DeleteOperationPanelState(resourcePanel);
         findResourcePanelState = new FindOperationPanelState(resourcePanel);
         saveResourcePanelState = new SaveOperationPanelState(resourcePanel);
         updateResourcePanelState = new UpdateOperationPanelState(resourcePanel);
 
-        currentState = saveResourcePanelState;
+        currentState = relationsPanelState;
     }
 
     public OperationPanelState getCurrentState() {
         return currentState;
+    }
+
+    public void startRelationsPanelState() {
+        currentState = relationsPanelState;
+        relationsPanelState.initializePanel();
     }
 
     public void startDeleteResourcePanelState() {

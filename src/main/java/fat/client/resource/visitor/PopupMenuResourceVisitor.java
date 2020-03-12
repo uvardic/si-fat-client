@@ -6,7 +6,6 @@ import fat.client.gui.tree.menu.TreeMenu;
 import fat.client.resource.Attribute;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
-import fat.client.resource.Workspace;
 
 import java.awt.event.MouseEvent;
 
@@ -17,11 +16,6 @@ public class PopupMenuResourceVisitor implements ResourceVisitor {
     public void showMenu(MouseEvent event) {
         treeMenu.showActions();
         treeMenu.show(event.getComponent(), event.getX(), event.getY());
-    }
-
-    @Override
-    public void visit(Workspace workspace) {
-        treeMenu.addAction(new RemoveResourceChildrenAction());
     }
 
     @Override

@@ -6,7 +6,8 @@ public class ResourcePanelToolbar extends JToolBar {
 
     public ResourcePanelToolbar() {
         setFloatable(false);
-        
+
+        addButton(new JButton(new RelationsOperationPanelStateAction()));
         addButton(new JButton(new DeleteOperationPanelStateAction()));
         addButton(new JButton(new FindOperationPanelStateAction()));
         addButton(new JButton(new SaveOperationPanelStateAction()));

@@ -20,6 +20,9 @@ public class Entity extends Resource {
         if (relation == null)
             throw new NullPointerException("Relation can't be null!");
 
+        if (relations.contains(relation))
+            return;
+
         relations.add(relation);
     }
 

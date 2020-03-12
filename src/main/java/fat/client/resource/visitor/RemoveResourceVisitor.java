@@ -5,12 +5,8 @@ import fat.client.gui.resourcepanel.tablepanel.TablePanel;
 import fat.client.resource.Attribute;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
-import fat.client.resource.Workspace;
 
 public class RemoveResourceVisitor implements ResourceVisitor {
-
-    @Override
-    public void visit(Workspace workspace) {}
 
     @Override
     public void visit(Repository repository) {

@@ -44,7 +44,8 @@ public abstract class Resource implements Observable, Serializable {
             throw new NullPointerException("Child can't be null!");
 
         if (children.contains(child))
-            throw new IllegalArgumentException(String.format("Child: %s is already present!", child));
+            return;
+//            throw new IllegalArgumentException(String.format("Child: %s is already present!", child));
 
         children.add(child);
         notifyObservers(Tree.class, this);
@@ -58,6 +59,13 @@ public abstract class Resource implements Observable, Serializable {
     public void removeChildren() {
         children.clear();
         notifyObservers(Tree.class, this);
+    }
+
+    public Resource findChildByName(String name) {
+        return children.stream()
+                .filter(child -> child.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Child not found!"));
     }
 
     public List<Resource> getChildren() {

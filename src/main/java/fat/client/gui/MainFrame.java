@@ -2,8 +2,10 @@ package fat.client.gui;
 
 import fat.client.gui.menu.Menu;
 import fat.client.gui.resourcepanel.ResourcePanel;
+import fat.client.gui.tree.Node;
 import fat.client.gui.tree.Tree;
 import fat.client.gui.util.ComponentSizeCalculator;
+import fat.client.resource.Repository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +38,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initializeFields() {
-        tree = new Tree();
+        tree = new Tree(new Node(new Repository()));
         resourcePanel = new ResourcePanel();
     }
 

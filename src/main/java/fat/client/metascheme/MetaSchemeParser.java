@@ -2,87 +2,70 @@ package fat.client.metascheme;
 
 import fat.client.gui.MainFrame;
 import fat.client.resource.Attribute;
-import fat.client.resource.DatabaseInfo;
+import fat.client.resource.Entity;
 import fat.client.resource.Repository;
 import fat.client.resource.Resource;
 import fat.client.resource.factory.ResourceFactory;
 import fat.client.resource.factory.ResourceType;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.stream.IntStream;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-// todo check values
 public class MetaSchemeParser {
 
     private static final ResourceFactory resourceFactory = new ResourceFactory();
 
-    private static Resource createResource(JSONObject JSON, ResourceType type, Resource parent) {
-        String name = JSON.getString(MetaSchemeKeyword.NAME.name());
-        Resource resource = resourceFactory.getResource(type, name, parent);
-        resource.addObserver(MainFrame.getInstance().getTree());
-        return resource;
-    }
-
     private MetaSchemeParser() {}
 
-    public static void parseSchema(String schemaPath) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(schemaPath))) {
-            parseSchemaWorker(new JSONObject(new JSONTokener(reader)));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public static void parseDatabaseMetaData() throws SQLException {
+        ResultSet entityResult = Repository.getMetaData().getTables(
+                null, null, null, new String[]{"TABLE"}
+        );
+
+        while (entityResult.next())
+            parseEntityMetaData(entityResult);
+
+        entityResult.beforeFirst();
+
+        while (entityResult.next())
+            parseRelationsFor(entityResult.getString("TABLE_NAME"));
     }
 
-    private static void parseSchemaWorker(JSONObject workspaceJSON) {
+    private static void parseEntityMetaData(ResultSet entityResult) throws SQLException {
+        String name = entityResult.getString("TABLE_NAME");
         Resource parent = MainFrame.getInstance().getTree().getRoot().getResource();
-
-        JSONArray repositoryJSONs = workspaceJSON.getJSONArray(MetaSchemeKeyword.REPOSITORY.name());
-
-        IntStream.range(0, repositoryJSONs.length())
-                .mapToObj(repositoryJSONs::getJSONObject)
-                .forEach(repositoryJSON -> parseRepositoryJSON(repositoryJSON, parent));
+        Resource entity = resourceFactory.getResource(ResourceType.ENTITY, name, parent);
+        parseAttributeMetaData(entity);
     }
 
-    private static void parseRepositoryJSON(JSONObject repositoryJSON, Resource parent) {
-        Resource repository = createResource(repositoryJSON, ResourceType.REPOSITORY, parent);
-        ((Repository) repository).setDatabaseInfo(parseDatabaseInfo(repositoryJSON));
+    private static void parseAttributeMetaData(Resource parent) throws SQLException {
+        ResultSet primaryKeyAttributeResult = Repository.getMetaData().getPrimaryKeys(null, null, parent.getName());
 
-        JSONArray entityJSONs = repositoryJSON.getJSONArray(MetaSchemeKeyword.ENTITY.name());
+        while (primaryKeyAttributeResult.next()) {
+            Attribute attribute = (Attribute) resourceFactory.getResource(
+                    ResourceType.ATTRIBUTE, primaryKeyAttributeResult.getString("COLUMN_NAME"), parent
+            );
 
-        IntStream.range(0, entityJSONs.length())
-                .mapToObj(entityJSONs::getJSONObject)
-                .forEach(entityJSON -> parseEntityJSON(entityJSON, repository));
+            attribute.setKey(true);
+        }
+
+        ResultSet attributeResult = Repository.getMetaData().getColumns(null, null, parent.getName(), null);
+
+        while (attributeResult.next())
+            resourceFactory.getResource(
+                    ResourceType.ATTRIBUTE, attributeResult.getString("COLUMN_NAME"), parent
+            );
     }
 
-    private static DatabaseInfo parseDatabaseInfo(JSONObject repositoryJSON) {
-        return new DatabaseInfo.Builder()
-                .server(repositoryJSON.getString(MetaSchemeKeyword.SERVER.name()))
-                .name(repositoryJSON.getString(MetaSchemeKeyword.DATABASE.name()))
-                .username(repositoryJSON.getString(MetaSchemeKeyword.USERNAME.name()))
-                .password(repositoryJSON.getString(MetaSchemeKeyword.PASSWORD.name()))
-                .create();
-    }
+    private static void parseRelationsFor(String tableName) throws SQLException {
+        ResultSet foreignKeys = Repository.getMetaData().getImportedKeys(null, null, tableName);
+        Resource parent = MainFrame.getInstance().getTree().getRoot().getResource();
+        Entity owner = (Entity) parent.findChildByName(tableName);
 
-    private static void parseEntityJSON(JSONObject entityJSON, Resource parent) {
-        Resource entity = createResource(entityJSON, ResourceType.ENTITY, parent);
-
-        // todo relations
-
-        JSONArray attributeJSONs = entityJSON.getJSONArray(MetaSchemeKeyword.ATTRIBUTE.name());
-
-        IntStream.range(0, attributeJSONs.length())
-                .mapToObj(attributeJSONs::getJSONObject)
-                .forEach(attributeJSON -> parseAttributeJSON(attributeJSON, entity));
-    }
-
-    private static void parseAttributeJSON(JSONObject attributeJSON, Resource parent) {
-        Resource attribute = createResource(attributeJSON, ResourceType.ATTRIBUTE, parent);
-        ((Attribute) attribute).setKey(attributeJSON.getBoolean(MetaSchemeKeyword.KEY.name()));
+        while (foreignKeys.next()) {
+            Entity relation = (Entity) parent.findChildByName(foreignKeys.getString("PKTABLE_NAME"));
+            owner.addRelation(relation);
+        }
     }
 
 }
