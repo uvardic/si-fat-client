@@ -21,6 +21,10 @@ public class Attribute extends Resource {
         return isKey;
     }
 
+    public void setKey(boolean key) {
+        isKey = key;
+    }
+
     @Override
     public void acceptVisitor(ResourceVisitor visitor) {
         visitor.visit(this);

@@ -4,7 +4,6 @@ import fat.client.resource.*;
 
 public class ResourceFactory {
 
-    // Add observers
     public Resource getResource(ResourceType type, String name, Resource parent) {
         switch (type) {
             case WORKSPACE:

@@ -36,8 +36,8 @@ public class MainFrame extends JFrame {
     }
 
     private void initializeFields() {
-        resourcePanel = new ResourcePanel();
         tree = new Tree();
+        resourcePanel = new ResourcePanel();
     }
 
     private void initializeFrame() {

@@ -18,11 +18,11 @@ public abstract class Resource implements Observable, Serializable {
 
     private final String name;
 
-    private final Resource parent;
+    private transient final Resource parent;
 
     private final List<Resource> children = new ArrayList<>();
 
-    private final List<Observer> observers = new ArrayList<>();
+    private transient final List<Observer> observers = new ArrayList<>();
 
     Resource(String name, Resource parent) {
         this.name = name;

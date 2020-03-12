@@ -1,21 +1,20 @@
 package fat.client.gui.tree;
 
 import fat.client.observer.Observer;
-import fat.client.resource.Attribute;
-import fat.client.resource.Entity;
-import fat.client.resource.Repository;
-import fat.client.resource.Workspace;
+import fat.client.resource.*;
 
 import javax.swing.*;
 
 public class Tree extends JTree implements Observer {
 
-//    private final Node root = new Node(new Workspace("Workspace"));
+    private final Node root;
 
     private final TreeModel model;
 
     public Tree() {
-        this.model = new TreeModel(testRoot());
+        this.root = new Node(new Workspace("Workspace"));
+        this.model = new TreeModel(root);
+
         setModel(model);
         setCellRenderer(new TreeCellRenderer());
         initializeController();
@@ -34,7 +33,7 @@ public class Tree extends JTree implements Observer {
         Workspace root = new Workspace("Workspace");
         root.addObserver(this);
 
-        Repository repository = new Repository("Repo", root);
+        Repository repository = new Repository("Repo", root, new DatabaseInfo.Builder().create());
         repository.addObserver(this);
 
         Entity entity = new Entity("Entity", repository);
@@ -52,6 +51,10 @@ public class Tree extends JTree implements Observer {
         new Attribute("At132t", entity1);
 
         return new Node(root);
+    }
+
+    public Node getRoot() {
+        return root;
     }
 
     public void selectNode(Node node) {
