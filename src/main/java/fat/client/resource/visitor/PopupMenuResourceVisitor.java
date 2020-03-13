@@ -4,6 +4,7 @@ import fat.client.gui.tree.menu.RemoveResourceAction;
 import fat.client.gui.tree.menu.RemoveResourceChildrenAction;
 import fat.client.gui.tree.menu.TreeMenu;
 import fat.client.resource.Attribute;
+import fat.client.resource.AttributeDescription;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
 
@@ -31,5 +32,10 @@ public class PopupMenuResourceVisitor implements ResourceVisitor {
     @Override
     public void visit(Attribute attribute) {
         treeMenu.addActions(new RemoveResourceAction(), new RemoveResourceChildrenAction());
+    }
+
+    @Override
+    public void visit(AttributeDescription attributeDescription) {
+        treeMenu.addActions(new RemoveResourceAction());
     }
 }

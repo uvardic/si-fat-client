@@ -27,10 +27,6 @@ public class TreeMenu extends JPopupMenu {
         Arrays.stream(actions).forEach(this::addAction);
     }
 
-    public void removeAllActions() {
-        actions.clear();
-    }
-
     public void showActions() {
         actions.forEach(this::add);
     }

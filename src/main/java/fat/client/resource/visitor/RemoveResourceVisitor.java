@@ -3,6 +3,7 @@ package fat.client.resource.visitor;
 import fat.client.gui.MainFrame;
 import fat.client.gui.resourcepanel.tablepanel.TablePanel;
 import fat.client.resource.Attribute;
+import fat.client.resource.AttributeDescription;
 import fat.client.resource.Entity;
 import fat.client.resource.Repository;
 
@@ -26,4 +27,8 @@ public class RemoveResourceVisitor implements ResourceVisitor {
         attribute.getParent().removeChild(attribute);
     }
 
+    @Override
+    public void visit(AttributeDescription attributeDescription) {
+        attributeDescription.getParent().removeChild(attributeDescription);
+    }
 }
