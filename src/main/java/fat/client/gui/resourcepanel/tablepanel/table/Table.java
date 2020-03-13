@@ -9,11 +9,14 @@ public class Table extends JTable {
 
     private final Resource resource;
 
+    private final TableModel model;
+
     public Table(Resource resource) {
         this.resource = resource;
+        this.model = new TableModel(this);
 
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setModel(new TableModel(this));
+        setModel(model);
     }
 
     public Resource getResource() {
@@ -21,7 +24,11 @@ public class Table extends JTable {
     }
 
     public String format() {
-        return String.format("%s - %s", resource.getParent().getName(), resource.getName());
+        return resource.getName();
+    }
+
+    public void updateTable() {
+        model.updateTable();
     }
 
     @Override

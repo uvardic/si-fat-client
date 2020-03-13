@@ -1,17 +1,18 @@
 package fat.client.resource.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Persistence {
 
     void deleteById(Object table, Object id);
 
-    Object save(Object table, Object request);
+    Map<String, Object> save(Object table, Map<String, Object> request);
 
-    Object update(Object table, Object existingId, Object request);
+    Map<String, Object> update(Object table, Object existingId, Map<String, Object> request);
 
-    Object findById(Object table, Object id);
+    Map<String, Object> findById(Object table, Object id);
 
-    List<Object> findAll(Object table);
+    List<Map<String, Object>> findAll(Object table);
 
 }
