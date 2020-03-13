@@ -4,12 +4,14 @@ import java.util.List;
 
 public interface Persistence {
 
-    void deleteById(Object id);
+    void deleteById(Object table, Object id);
 
-    Object save(Object request);
+    Object save(Object table, Object request);
 
-    Object findById(Object id);
+    Object update(Object table, Object existingId, Object request);
 
-    List<Object> findAll();
+    Object findById(Object table, Object id);
+
+    List<Object> findAll(Object table);
 
 }

@@ -26,7 +26,8 @@ public class TablePanel extends JTabbedPane {
     }
 
     Table getSelectedTable() {
-        return (Table) getComponentAt(getSelectedIndex());
+        JScrollPane scrollPane = (JScrollPane) getComponentAt(getSelectedIndex());
+        return (Table) scrollPane.getViewport().getView();
     }
 
     public void addTableFor(Resource resource) {
@@ -36,16 +37,26 @@ public class TablePanel extends JTabbedPane {
         Table table = new Table(resource);
 
         if (tableNotFound(table))
-            addTab(table.format(), table);
+            addTab(table.format(), new JScrollPane(table));
 
-        setSelectedComponent(table);
+        selectTable(table);
         resourcePanel.initializeOperationPanel();
     }
 
     private boolean tableNotFound(Table table) {
         return Arrays.stream(getComponents())
-                .map(component -> (Table) component)
+                .map(component -> (JScrollPane) component)
+                .map(component -> (Table) component.getViewport().getView())
                 .noneMatch(existingTable -> existingTable.equals(table));
+    }
+
+    private void selectTable(Table table) {
+        for (int i = 0; i < getComponentCount(); i++) {
+            JScrollPane scrollPane = (JScrollPane) getComponentAt(i);
+            Table presentTable = (Table) scrollPane.getViewport().getView();
+            if (table.equals(presentTable))
+                setSelectedIndex(i);
+        }
     }
 
     public void removeTableFor(Resource resource) {

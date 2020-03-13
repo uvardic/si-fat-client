@@ -1,6 +1,11 @@
 package fat.client.gui.resourcepanel.tablepanel.table;
 
+import fat.client.resource.persistence.Persistence;
+import fat.client.resource.persistence.PersistenceImpl;
+import fat.client.resource.persistence.implementor.MySQLPersistenceImplementor;
+
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 import java.util.Objects;
 
 class TableModel extends DefaultTableModel {
@@ -9,6 +14,14 @@ class TableModel extends DefaultTableModel {
 
     TableModel(Table table) {
         this.table = table;
+        fillTable();
+    }
+
+    private void fillTable() {
+        Persistence persistence = new PersistenceImpl(new MySQLPersistenceImplementor());
+        List<Object> foundObjects = persistence.findAll(table.getResource());
+        for (Object foundObject : foundObjects)
+            addRow((Object[]) foundObject);
     }
 
     @Override

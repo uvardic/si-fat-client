@@ -37,7 +37,16 @@ public class RelationsPanel extends JTabbedPane {
 
     private void addTableFor(Entity relation) {
         Table table = new Table(relation);
-        addTab(table.format(), table);
-        setSelectedComponent(table);
+        addTab(table.format(), new JScrollPane(table));
+        selectTable(table);
+    }
+
+    private void selectTable(Table table) {
+        for (int i = 0; i < getComponentCount(); i++) {
+            JScrollPane scrollPane = (JScrollPane) getComponentAt(i);
+            Table presentTable = (Table) scrollPane.getViewport().getView();
+            if (table.equals(presentTable))
+                setSelectedIndex(i);
+        }
     }
 }

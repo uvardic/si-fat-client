@@ -13,22 +13,27 @@ public class PersistenceImpl implements Persistence {
     }
 
     @Override
-    public void deleteById(Object id) {
-        implementor.deleteById(id);
+    public void deleteById(Object table, Object id) {
+        implementor.deleteById(table, id);
     }
 
     @Override
-    public Object save(Object request) {
-        return implementor.save(request);
+    public Object save(Object table, Object request) {
+        return implementor.save(table, request);
     }
 
     @Override
-    public Object findById(Object id) {
-        return implementor.findById(id);
+    public Object update(Object table, Object existingId, Object request) {
+        return implementor.update(table, existingId, request);
     }
 
     @Override
-    public List<Object> findAll() {
-        return implementor.findAll();
+    public Object findById(Object table, Object id) {
+        return implementor.findById(table, id);
+    }
+
+    @Override
+    public List<Object> findAll(Object table) {
+        return implementor.findAll(table);
     }
 }
