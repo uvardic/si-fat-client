@@ -100,8 +100,10 @@ public class UpdateOperationPanel extends OperationPanel {
     private void updateAction(ActionEvent event) {
         Resource lastSelectedResource = MainFrame.getInstance().getTree().getLastSelectedPathComponent().getResource();
 
-        if (!(lastSelectedResource instanceof Entity))
-            throw new IllegalStateException("Entity must be selected!");
+        if (!(lastSelectedResource instanceof Entity)) {
+            Dialog.error("", "Select an entity first");
+            return;
+        }
 
         Persistence persistence = new PersistenceImpl(new MySQLPersistenceImplementor());
         Component[] idComponents = new Component[findFields.size()];

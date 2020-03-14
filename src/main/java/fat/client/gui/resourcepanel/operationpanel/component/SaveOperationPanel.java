@@ -1,5 +1,6 @@
 package fat.client.gui.resourcepanel.operationpanel.component;
 
+import fat.client.gui.Dialog;
 import fat.client.gui.MainFrame;
 import fat.client.resource.Entity;
 import fat.client.resource.Resource;
@@ -33,8 +34,10 @@ public class SaveOperationPanel extends OperationPanel {
     private void saveAction(ActionEvent event) {
         Resource lastSelectedResource = MainFrame.getInstance().getTree().getLastSelectedPathComponent().getResource();
 
-        if (!(lastSelectedResource instanceof Entity))
-            throw new IllegalStateException("Entity must be selected!");
+        if (!(lastSelectedResource instanceof Entity)) {
+            Dialog.error("", "Select an entity first");
+            return;
+        }
 
         Persistence persistence = new PersistenceImpl(new MySQLPersistenceImplementor());
         persistence.save(lastSelectedResource, createMap(getComponents()));
