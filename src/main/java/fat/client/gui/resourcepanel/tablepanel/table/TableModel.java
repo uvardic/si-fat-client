@@ -31,6 +31,11 @@ class TableModel extends DefaultTableModel {
         fillTable();
     }
 
+    void show(Map<String, Object> object) {
+        setRowCount(0);
+        addRow(object.values().toArray());
+    }
+
     @Override
     public int getColumnCount() {
         return table.getResource().getChildren().size();

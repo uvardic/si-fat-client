@@ -3,6 +3,7 @@ package fat.client.gui.resourcepanel.tablepanel.table;
 import fat.client.resource.Resource;
 
 import javax.swing.*;
+import java.util.Map;
 import java.util.Objects;
 
 public class Table extends JTable {
@@ -29,6 +30,10 @@ public class Table extends JTable {
 
     public void updateTable() {
         model.updateTable();
+    }
+
+    public void showRow(Map<String, Object> object) {
+        model.show(object);
     }
 
     @Override

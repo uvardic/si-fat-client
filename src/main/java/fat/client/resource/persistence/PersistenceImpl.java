@@ -14,7 +14,7 @@ public class PersistenceImpl implements Persistence {
     }
 
     @Override
-    public void deleteById(Object table, Object id) {
+    public void deleteById(Object table, Map<String, Object> id) {
         implementor.deleteById(table, id);
     }
 
@@ -24,12 +24,12 @@ public class PersistenceImpl implements Persistence {
     }
 
     @Override
-    public Map<String, Object> update(Object table, Object existingId, Map<String, Object> request) {
+    public Map<String, Object> update(Object table, Map<String, Object> existingId, Map<String, Object> request) {
         return implementor.update(table, existingId, request);
     }
 
     @Override
-    public Map<String, Object> findById(Object table, Object id) {
+    public Map<String, Object> findById(Object table, Map<String, Object> id) {
         return implementor.findById(table, id);
     }
 
