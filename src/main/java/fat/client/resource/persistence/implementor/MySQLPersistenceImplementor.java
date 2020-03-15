@@ -28,7 +28,6 @@ public class MySQLPersistenceImplementor implements PersistenceImplementor {
         try (Statement statement = Repository.getConnection().createStatement()) {
             statement.executeUpdate(SQL);
         } catch (SQLException e) {
-            e.printStackTrace();
             Dialog.error("Delete Error", e.getMessage());
             System.err.println(SQL);
         }
@@ -63,7 +62,6 @@ public class MySQLPersistenceImplementor implements PersistenceImplementor {
         try (Statement statement = Repository.getConnection().createStatement()) {
             statement.executeUpdate(SQL);
         } catch (SQLException e) {
-            e.printStackTrace();
             Dialog.error("Save Error", e.getMessage());
             System.err.println(SQL);
         }
@@ -85,7 +83,6 @@ public class MySQLPersistenceImplementor implements PersistenceImplementor {
         try (Statement statement = Repository.getConnection().createStatement()) {
             statement.executeUpdate(SQL);
         } catch (SQLException e) {
-            e.printStackTrace();
             Dialog.error("Find Error", e.getMessage());
             System.err.println(SQL);
         }
@@ -138,7 +135,6 @@ public class MySQLPersistenceImplementor implements PersistenceImplementor {
                     foundObject.put(child.getName(), selectResult.getObject(child.getName()));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             Dialog.error("Find Error", e.getMessage());
             System.err.println(SQL);
         }
@@ -167,7 +163,6 @@ public class MySQLPersistenceImplementor implements PersistenceImplementor {
                 foundObjects.add(objectMap);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             Dialog.error("Find All Error", e.getMessage());
             System.err.println(SQL);
         }
